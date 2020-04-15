@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Twts!</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+
+
+<div class="container">
+  <h2> Recent Twts! (Those in red are yours!)</h2>
+  <table class="table">
+
+    <thead> <!-- categories in the header -->
+      <tr>
+
+        <th>Username/Email</th>
+        <th>Twt</th>
+        <th>Likes</th>
+        <th>Dislikes</th>
+
+      </tr>
+    </thead>
+
+    <tbody>
+
+      {% for twt in latest_twt_list %}
+        <!-- highlights red if the viewing TwtPoster previously posted the twt -->
+        <tr {% if user.twtposter_text == twt.twtposter.twtposter_text %}style="background-color:Tomato;"{% endif %}>
+
+          <th>{{ twt.twtposter.twtposter_text }}</th> <!-- shows the username -->
+          <th>{{ twt.twt_text }}</th> <!-- shows the twt's content -->
+          <th><a href="{% url 'twts:detail' twt.id %}"><button>{{ twt.likes }}</button></a></th> <!-- shows the number of likes and allows for liking-->
+          <th><a href="{% url 'twts:detail' twt.id %}"><button>{{ twt.dislikes }}</button></a></th> <!-- shows the number of dislikes and allows for disliking-->
+
+        </tr>
+      {% endfor %}
+
+    </tbody>
+  </table>
+
+  <form action={% url 'twts:posttwt' user.id %} method="post">
+
+    {% csrf_token %}
+    <label for="newesttwt"><b>Twt!</b></label>
+    <input type="text" placeholder="Enter a twt" name="newesttwt" required> <!-- form to post a new twt -->
+
+  </form>
+
+</div>
+
+
+<!-- TEST/BASE CODE; DISREGARD
+{% if latest_twt_list %}
+    <ul>
+    {% for twt in latest_twt_list %}
+        <li><a href="{% url 'twts:detail' twt.id %}">{{ twt.twt_text }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No twts are available.</p>
+{% endif %}
+-->
+
+</body>
+</html>

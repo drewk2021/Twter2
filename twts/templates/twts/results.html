@@ -1,0 +1,9 @@
+<h1>{{ twt.twt_text }}</h1>
+
+<ul>
+{% for twtposter in twt.twtposter_set.all %}
+    <li>{{ twtposter.twtposter_text }} -- {{ twtposter.votes }} vote{{ twtposter.votes|pluralize }}</li>
+{% endfor %}
+</ul>
+
+<a href="{% url 'twts:detail' twt.id %}">Vote again?</a>

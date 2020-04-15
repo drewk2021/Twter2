@@ -1,0 +1,29 @@
+<h1>Twt:      {{ twt.twt_text }}</h1>
+<h3>Replies!</h3>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %} <!-- shows error messages for user authentication defects; needs improvement -->
+
+{% if twt.reply_set.count > 0 %}  <!-- only formulates when there are available reply objects-->
+  {% for reply in twt.reply_set.all %} <!-- loops through the reply objects related by foreign key in a many to one relationship -->
+    <h3>{{reply.reply_text}}</h3>
+  {% endfor %}
+{% endif %}
+
+<form action="{% url 'twts:replytotwt' twt.id %}" method="post">
+  {% csrf_token %}
+  <label for="replytext"><b>Reply!</b></label>
+  <input type="text" placeholder="Enter a reply" name="replytext" required> <!-- form to post a new reply -->
+
+  <input type="submit" value="Reply"> <!-- replying to the twt -->
+</form>
+
+
+<form action="{% url 'twts:vote' twt.id %}" method="post">
+  {% csrf_token %}
+    <input type="radio" name="like" value=1>
+    <label>Like!</label>
+    <input type="radio" name="dislike" value=1>
+    <label>Dislike!</label>
+
+<input type="submit" value="Vote"> <!-- two options passed into the request.POST object-->
+</form>
