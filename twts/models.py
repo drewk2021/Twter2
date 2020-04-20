@@ -48,3 +48,19 @@ class Reply(models.Model):
 
     def was_published_recently(self):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+
+
+
+"""class Twt(models.Model):
+    twt_text = models.CharField('twt text', max_length=200)
+    pub_date = models.DateTimeField('date published', default=timezone.now())
+    likes = models.IntegerField(default=0)
+    dislikes = models.IntegerField(default=0)
+    #twtposter = models.ForeignKey(TwtPoster,on_delete=models.CASCADE)  this connects every individual twt to a TwtPoster user
+    twtposter = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.twt_text
+
+    def was_published_recently(self):
+        return self.pub_date >= timezone.now() - datetime.timedelta(days=1)"""
